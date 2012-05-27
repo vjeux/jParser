@@ -19,7 +19,7 @@ var extend = function (obj) {
 };
 
 function jParser(view, structure) {
-	if (!(this instanceof arguments.callee)) {
+	if (!(this instanceof jParser)) {
 		throw new Error("Constructor may not be called as a function");
 	}
 	if (!(view instanceof jDataView)) {
