@@ -38,6 +38,8 @@ jParser Constructor:
     * ``data`` is a [jDataView](https://github.com/vjeux/jDataView). You can give pretty much anything (String, [ArrayBuffer](https://developer.mozilla.org/en/JavaScript_typed_arrays), [Node Buffer](http://nodejs.org/docs/v0.6.2/api/buffers.html)), it will be casted to jDataView automatically.
     * ``structure`` is an object with all the defined structures.
 
+It implements [John Resig's self-calling constructor](http://ejohn.org/blog/simple-class-instantiation/) interface, so you may use simple `jParser(data, structure)` instead of `new jParser(data, structure)` if you like it.
+
 Examples
 ========
 
@@ -45,7 +47,7 @@ Examples
 You have the ability to define C-like structures. It's a Javascript object where keys are labels and values are types.
 
 ```javascript
-var parser = new jParser(file, {
+var parser = jParser(file, {
   header: {
     fileId: 'int32',
     recordIndex: 'int32',
@@ -163,7 +165,7 @@ var fs = require('fs');
 var jParser = require('jParser');
 
 fs.readFile('file.bin', function (err, data) {
-  var parser = new jParser(data, {
+  var parser = jParser(data, {
     magic: ['array', 'uint8', 4]
   });
   console.log(parser.parse('magic'));
@@ -179,7 +181,7 @@ fs.readFile('file.bin', function (err, data) {
 
 <script>
 $.get('file.bin', function (data) {
-  var parser = new jParser(data, {
+  var parser = jParser(data, {
     magic: ['array', 'uint8', 4]
   });
   console.log(parser.parse('magic'));

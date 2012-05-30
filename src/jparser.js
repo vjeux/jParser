@@ -19,8 +19,10 @@ var extend = function (obj) {
 };
 
 function jParser(view, structure) {
+	// John Resig's self-calling constructor,
+	// see http://ejohn.org/blog/simple-class-instantiation/ for details.
 	if (!(this instanceof jParser)) {
-		throw new Error("Constructor may not be called as a function");
+		return new jParser(view, structure);
 	}
 	if (!(view instanceof jDataView)) {
 		view = new jDataView(view);
