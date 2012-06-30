@@ -4,7 +4,6 @@ if (typeof jDataView === 'undefined' && typeof require !== 'undefined') {
 	jDataView = require('jDataView');
 }
 
-
 // Extend code from underscorejs
 var extend = function (obj) {
 	for (var i = 1; i < arguments.length; ++i) {
@@ -41,13 +40,13 @@ function toInt(val) {
 
 jParser.prototype.structure = {
 	uint8: function () { return this.view.getUint8(); },
-	uint16: function () { return this.view.getUint16(); },
-	uint32: function () { return this.view.getUint32(); },
-	int8: function () { return this.view.getInt8(); },
-	int16: function () { return this.view.getInt16(); },
-	int32: function () { return this.view.getInt32(); },
-	float32: function () { return this.view.getFloat32(); },
-	float64: function () { return this.view.getFloat64(); },
+	uint16: function () { return this.view.getUint16(undefined, true); },
+	uint32: function () { return this.view.getUint32(undefined, true); },
+	int8: function () { return this.view.getInt8(undefined, true); },
+	int16: function () { return this.view.getInt16(undefined, true); },
+	int32: function () { return this.view.getInt32(undefined, true); },
+	float32: function () { return this.view.getFloat32(undefined, true); },
+	float64: function () { return this.view.getFloat64(undefined, true); },
 	char: function () { return this.view.getChar(); },
 	string: function (length) {
 		return this.view.getString(toInt.call(this, length));
