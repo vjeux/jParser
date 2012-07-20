@@ -42,7 +42,7 @@ jParser.prototype.structure = {
 	uint8: function () { return this.view.getUint8(); },
 	uint16: function () { return this.view.getUint16(undefined, true); },
 	uint32: function () { return this.view.getUint32(undefined, true); },
-	int8: function () { return this.view.getInt8(undefined, true); },
+	int8: function () { return this.view.getInt8(); },
 	int16: function () { return this.view.getInt16(undefined, true); },
 	int32: function () { return this.view.getInt32(undefined, true); },
 	float32: function () { return this.view.getFloat32(undefined, true); },
