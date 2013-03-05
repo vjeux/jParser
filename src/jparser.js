@@ -77,6 +77,56 @@ jParser.prototype.structure = {
 		offset = toInt.call(this, offset);
 		this.view.seek(this.view.tell() + offset);
 		return offset;
+	},
+	if: function (predicate) {
+        if (predicate instanceof Function ? predicate.call(this) : predicate) {
+            return this.parse.apply(this, Array.prototype.slice.call(arguments, 1));
+        }
+    },
+	bitfield: function (structure, bitShift) {
+		var output = {},
+            current = this.current;
+
+		bitShift = bitShift || 0;
+
+		for (var key in structure) {
+			var fieldInfo = structure[key],
+				fieldValue;
+
+			if (typeof fieldInfo === 'object') {
+				fieldValue = this.parse(this.structure.bitfield, fieldInfo, bitShift);
+			} else {
+				this.current = output;
+
+				var bitSize = toInt.call(this, fieldInfo);
+				fieldValue = 0;
+
+				if (bitShift < 0) {
+					var byteShift = bitShift >> 3; // Math.floor(bitShift / 8)
+					this.skip(byteShift);
+					bitShift &= 7; // bitShift + 8 * Math.floor(bitShift / 8)
+				}
+				if (bitShift > 0 && bitSize >= 8 - bitShift) {
+					fieldValue = this.view.getUint8() & ~(-1 << (8 - bitShift));
+					bitSize -= 8 - bitShift;
+					bitShift = 0;
+				}
+				while (bitSize >= 8) {
+					fieldValue = this.view.getUint8() | (fieldValue << 8);
+					bitSize -= 8;
+				}
+				if (bitSize > 0) {
+					fieldValue = ((this.view.getUint8() >>> (8 - (bitShift + bitSize))) & ~(-1 << bitSize)) | (fieldValue << bitSize);
+					bitShift = bitShift + bitSize - 8; // passing negative value for next pass
+				}
+			}
+
+			output[key] = fieldValue;
+		}
+
+        this.current = current;
+
+		return output;
 	}
 };
 
@@ -104,13 +154,18 @@ jParser.prototype.parse = function (structure) {
 		return this.parse.apply(this, [this.structure[key]].concat(structure.slice(1)));
 	}
 
-    // {key: val} means {key: parse(val)}
+	// {key: val} means {key: parse(val)}
 	if (typeof structure === 'object') {
-		var output = {};
+		var output = {},
+            current = this.current;
+
 		for (var key in structure) {
 			this.current = output;
 			output[key] = this.parse(structure[key]);
 		}
+
+        this.current = current;
+
 		return output;
 	}
 
