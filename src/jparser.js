@@ -78,6 +78,11 @@ jParser.prototype.structure = {
 		this.view.seek(this.view.tell() + offset);
 		return offset;
 	},
+	if: function (predicate) {
+        if (predicate instanceof Function ? predicate.call(this) : predicate) {
+            return this.parse.apply(this, Array.prototype.slice.call(arguments, 1));
+        }
+    },
 	bitfield: function (structure, bitShift) {
 		var output = {},
             current = this.current;
