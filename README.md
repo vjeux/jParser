@@ -1,3 +1,13 @@
+If you are interest in jParser then look at [jBinary](https://github.com/jDataView/jBinary). This is a better version that supports both reads and write, extensions, templates ... yet preserves the declarative API of jParser.
+
+
+
+
+
+
+
+
+
 <a href="http://blog.vjeux.com/2011/javascript/binaryparser-unleash-javascript-power.html">jParser</a> - Parsing binary files made easy.
 ================================
 
