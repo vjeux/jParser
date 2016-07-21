@@ -45,6 +45,7 @@ jParser.prototype.structure = {
 	uint8: function () { return this.view.getUint8(); },
 	uint16: function () { return this.view.getUint16(); },
 	uint32: function () { return this.view.getUint32(); },
+	uint64: function () { return this.view.getUint64(); },
 	int8: function () { return this.view.getInt8(); },
 	int16: function () { return this.view.getInt16(); },
 	int32: function () { return this.view.getInt32(); },
